@@ -1,10 +1,3 @@
-// This is a quiz for the following sections:
-// - Strings
-// - Vecs
-// - Move semantics
-// - Modules
-// - Enums
-//
 // Let's build a little machine in the form of a function. As input, we're going
 // to give a list of strings and commands. These commands determine what action
 // is going to be applied to the string. It can either be:
@@ -27,7 +20,22 @@ mod my_module {
     use super::Command;
 
     // TODO: Complete the function as described above.
-    // pub fn transformer(input: ???) -> ??? { ??? }
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+        input
+            .into_iter()
+            .map(|(s, command)| match command {
+                Command::Uppercase => s.to_uppercase(),
+                Command::Trim => s.trim().to_string(),
+                Command::Append(times) => {
+                    let mut out = s.clone();
+                    for _ in 0..times {
+                        out.push_str("bar");
+                    }
+                    out
+                }
+            })
+            .collect()
+    }
 }
 
 fn main() {
@@ -37,8 +45,8 @@ fn main() {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    // use ???;
     use super::Command;
+    use super::my_module::transformer;
 
     #[test]
     fn it_works() {
